@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <title>水果游戏</title>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<canvas id="canvas" style="border: black solid 1px;" width="800" height="800"></canvas>
+<!--<img id="apple" src="APPLE.jpg">-->
+<script>
+    var elememntWidth = 80;
+    var elementHeight = 80;
+
+    var xOffset = 0; //横坐标偏移量；
+    var yOffset = 0; //纵坐标偏移量；
+    var array = [{name: '大芒果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight},
+        {name: '苹果', width: elememntWidth, height: elementHeight}];
+
+    var imagesSrc = ["static/image/timg_1.jpg", "static/image/timg_2.jpg", "static/image/timg_3.jpg", "static/image/timg_4.jpg", "static/image/timg_5.jpg",
+        "static/image/timg_6.jpg", "static/image/timg_7.jpg", "static/image/timg_8.jpg", "static/image/timg_9.jpg", "static/image/timg_10.jpg",
+        "static/image/timg_11.jpg", "static/image/timg_12.jpg", "static/image/timg_13.jpg", "static/image/timg_14.jpg", "static/image/timg_15.jpg",
+        "static/image/timg_16.jpg", "static/image/timg_17.jpg", "static/image/timg_18.jpg", "static/image/timg_19.jpg", "static/image/timg_20.jpg",
+        "static/image/timg_21.jpg", "static/image/timg_22.jpg"];
+    var item;
+
+    function draw() {
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        // ctx.fillStyle = 'green';
+        ctx.strokeStyle = "#000000";
+
+        var length = array.length;
+        var xOffset = 0; //横坐标偏移量；
+        var yOffset = 0; //纵坐标偏移量；
+
+        for (var i = 0; i < length; i++) {
+            item = array[i];
+            if (i <= 7) {
+                // if(i==7){
+                //     ctx.drawImage(apple,xOffset, yOffset, item.width, item.width);
+                // }
+                // ctx.fillRect(xOffset, yOffset, item.width, item.width);
+                var image = new Image();
+                image.src = imagesSrc[i];
+                image.complete = drawImage(ctx,image,xOffset, yOffset, item);
+                ctx.strokeRect(xOffset, yOffset, item.width, item.width);
+                if (i != 7) {
+                    xOffset += item.width;
+                    yOffset += 0;
+                }
+            } else if (i > 7 && i <= 10) {
+                xOffset += 0;
+                yOffset += item.height;
+                // ctx.fillRect(xOffset, yOffset, item.width, item.width);
+                var image = new Image();
+                image.src = imagesSrc[i];
+                image.complete = drawImage(ctx,image,xOffset, yOffset, item);
+                // function () {
+                //     ctx.drawImage(image, xOffset, yOffset, item.width, item.width);
+                // };
+                ctx.strokeRect(xOffset, yOffset, item.width, item.width);
+            } else if (i > 10 && i <= 18) {
+                if (i == 11) {
+                    xOffset += 0;
+                    yOffset += item.height;
+                } else {
+                    xOffset -= item.width;
+                    yOffset += 0;
+                }
+
+                // ctx.fillRect(xOffset, yOffset, item.width, item.width);
+                var image = new Image();
+                image.src = imagesSrc[i];
+                image.complete = drawImage(ctx,image,xOffset, yOffset, item);
+                ctx.strokeRect(xOffset, yOffset, item.width, item.width);
+            } else if (i > 18 && i <= length) {
+                xOffset -= 0;
+                yOffset -= item.width;
+
+                // ctx.fillRect(xOffset, yOffset, item.width, item.width);
+                var image = new Image();
+                image.src = imagesSrc[i];
+                image.complete = drawImage(ctx,image,xOffset, yOffset, item);
+                ctx.strokeRect(xOffset, yOffset, item.width, item.width);
+            }
+        }
+        xOffset = 0;
+        yOffset = 0;
+        window.setInterval(drawBlue, 100);
+    }
+
+    function drawImage(ctx,image,xOffset, yOffset, item) {
+        ctx.drawImage(image, xOffset, yOffset, item.width, item.width);
+    }
+
+    function drawBlue() {
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        // ctx.fillStyle = 'green';
+        ctx.strokeStyle = "#000000";
+        // ctx.fillRect(xOffset, yOffset, item.width, item.width);
+        ctx.strokeRect(xOffset, yOffset, item.width, item.width);
+
+        if (xOffset < 7 * item.width && yOffset == 0) {
+            xOffset += item.width;
+        } else if (xOffset >= 7 * item.width && yOffset < 4 * item.width) {
+            yOffset += item.width;
+        } else if (yOffset >= 4 * item.width && xOffset > 0) {
+            xOffset -= item.width;
+        } else if (yOffset > 0 && xOffset == 0) {
+            yOffset -= item.width;
+        }
+
+        // ctx.fillStyle = 'blue';
+        ctx.strokeStyle = "red";
+        // ctx.fillRect(xOffset, yOffset, item.width, item.width);
+        ctx.strokeRect(xOffset, yOffset, item.width, item.width);
+    }
+
+    $(document).ready(function () {
+        draw()
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+<div style="width: 400px;height: 400px;border: none;" id="main-div">
+
+</div>
+</body>
+<script>
+
+    var num = 1;
+    var images = ["image/timg_1.jpg", "image/timg_2.jpg", "image/timg_3.jpg", "image/timg_4.jpg", "image/timg_5.jpg",
+        "image/timg_6.jpg","image/timg_7.jpg","image/timg_8.jpg","image/timg_9.jpg","image/timg_10.jpg",
+        "image/timg_11.jpg","image/timg_12.jpg","image/timg_13.jpg","image/timg_14.jpg","image/timg_15.jpg",
+        "image/timg_16.jpg","image/timg_17.jpg","image/timg_18.jpg","image/timg_19.jpg","image/timg_20.jpg",
+        "image/timg_21.jpg","image/timg_22.jpg","image/timg_23.jpg","image/timg_24.jpg"];
+    window.onload = function () {
+        var mainDev = document.getElementById("main-div");
+        var j = 0;
+        var newDiv;
+        for (var i = 1; i < 8; i++) {
+            if (i == 1) {
+                for (j = 1; j < 8; j++) {
+                    newDiv = document.createElement("div");
+                    newDiv.className = "div-inline";
+                    newDiv.id = j.toString();
+                    newDiv.style.backgroundImage = "url("+ images[j] +")";
+                    // newDiv.style.backgroundRepeat = "no-repeat";
+                    mainDev.appendChild(newDiv);
+                }
+            } else if (i < 7) {
+                j = 0;
+                newDiv = document.createElement("div");
+                newDiv.className = "div-inline";
+                newDiv.id = (26 - i).toString();
+                newDiv.style.backgroundImage = "url("+ images[(26 - i)] +")";
+                // newDiv.style.backgroundRepeat = "no-repeat";
+                mainDev.appendChild(newDiv);
+                for (j = 1; j < 6; j++) {
+                    newDiv = document.createElement("div");
+                    newDiv.className = "div-inline-hidden";
+                    mainDev.appendChild(newDiv);
+                }
+                newDiv = document.createElement("div");
+                newDiv.className = "div-inline";
+                newDiv.id = (6 + i).toString();
+                newDiv.style.backgroundImage = "url("+ images[(6 + i)] +")";
+                // newDiv.style.backgroundRepeat = "no-repeat";
+                mainDev.appendChild(newDiv);
+            } else {
+                for (j = 1; j < 8; j++) {
+                    newDiv = document.createElement("div");
+                    newDiv.className = "div-inline";
+                    newDiv.id = (3 * i - j - 1).toString();
+                    newDiv.style.backgroundImage = "url("+ images[(3 * i - j - 1)] +")";
+                    // newDiv.style.backgroundRepeat = "no-repeat";
+                    mainDev.appendChild(newDiv);
+                }
+            }
+        }
+        window.setInterval(change,1000);
+    }
+
+    function change() {
+        // alert("1");
+        if (num % 25 == 0) {
+            num = 1;
+        }
+        // alert(num);
+        var changeDiv = document.getElementById(num);
+        // alert(changeDiv);
+        changeDiv.style.border = "1px solid black";
+        changeDiv = document.getElementById(num + 1);
+        changeDiv.style.border = "1px solid red";
+        num++;
+    }
+</script>
+</html>
