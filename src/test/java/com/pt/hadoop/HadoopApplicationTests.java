@@ -1,9 +1,8 @@
-package com.pt.hbase;
+package com.pt.hadoop;
 
-import com.pt.hbase.util.HBaseUtil;
+import com.pt.hadoop.util.HBaseUtil;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.filter.*;
-import org.apache.hadoop.hbase.shaded.protobuf.generated.FilterProtos;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HbaseApplicationTests {
+public class HadoopApplicationTests {
 
     @Autowired
     private HBaseUtil hbaseUtil;

@@ -1,6 +1,6 @@
-package com.pt.hbase;
+package com.pt.hadoop.config;
 
-import com.pt.hbase.util.HBaseUtil;
+import com.pt.hadoop.util.HBaseUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

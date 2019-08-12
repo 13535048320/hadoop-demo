@@ -39,6 +39,35 @@
 
     </dependencies>
 
+    <!-- 推送, id为maven配置文件settings.xml中配置的servers -->
+    <distributionManagement>
+        <repository>
+            <id>release_user</id>
+            <name>Release Deploy</name>
+            <url>http://172.30.20.136:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshot_user</id>
+            <name>Snapshot Deploy</name>
+            <url>http://172.30.20.136:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!-- 拉取 -->
+    <repositories>
+        <repository>
+            <id>nexus-public</id>
+            <name>Nexus Public</name>
+            <url>http://172.30.20.136:8081/repository/release-test/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>

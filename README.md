@@ -263,6 +263,33 @@ cd hadoop-3.1.2/etc/hadoop
 </configuration>
 ```
 
+
+<b>hadoop-env.sh</b>
+```
+# 配置JAVA_HOME
+export JAVA_HOME=
+```
+
+<b>start-dfs.sh、stop-dfs.sh</b>
+```
+cd ../../sbin
+添加：
+    HDFS_DATANODE_USER=root
+    HDFS_DATANODE_SECURE_USER=hdfs
+    HDFS_NAMENODE_USER=root
+    HDFS_SECONDARYNAMENODE_USER=root
+    HDFS_JOURNALNODE_USER=root
+    HDFS_ZKFC_USER=root
+```
+
+<b>start-yarn.sh、stop-yarn.sh</b>
+```
+添加：
+    YARN_RESOURCEMANAGER_USER=root
+    HADOOP_SECURE_DN_USER=yarn
+    YARN_NODEMANAGER_USER=root
+```
+
 同步所有配置
 ```
 scp conf/* node2:/路径/conf/
@@ -398,6 +425,20 @@ export PATH=$HBASE_HOME/bin:$PATH
 
 启动
 start-hbase.sh
+```
+## 4. 个人未解之谜
+```
+    在hbase配置里，hbase.rootdir配置项怎么实现HDFS高可用，在网上找到的均是说配置为
+    <property>
+        <name>hbase.rootdir</name>
+        <value>hdfs://mycluster/data/hbase</value>
+    </property>
+    
+    mycluster 与 HDFS 配置里的 dfs.nameservices 项一致
+    同时将hadoop的配置文件hdfs-site.xml和core-site.xml复制到hbase的conf目录下。
+    
+    但是启动后，HMaster会报错找不到host：mycluster
+    
 ```
 
 # Springboot 中使用hbase

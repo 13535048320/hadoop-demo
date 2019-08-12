@@ -1,4 +1,4 @@
-package com.pt.hbase.util;
+package com.pt.hadoop.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.conf.Configuration;
