@@ -350,8 +350,8 @@ hadoop-daemon.sh start zkfc
     在页面上选择上方DataNodes查看datanode节点是否齐全
 
 使用简单的hdfs命令
-    hdfs dfs -ls /
-    hdfs dfs -mkdir /hbase
+    hdfs dfs -fs hdfs://node1:9000 -ls /
+    hdfs dfs -fs hdfs://node1:9000 -mkdir /hbase
 ```
 
 # Hbase
