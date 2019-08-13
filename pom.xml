@@ -43,7 +43,7 @@
             <artifactId>hadoop-mapreduce-client-common</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <!-- MapReduce 核心jar包  -->
+        <!-- mapreduce 核心jar包  -->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-core</artifactId>

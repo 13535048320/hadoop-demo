@@ -1,4 +1,4 @@
-package com.pt.hadoop.MapReduce;
+package com.pt.hadoop.mapreduce;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
