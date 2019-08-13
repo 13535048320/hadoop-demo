@@ -352,6 +352,8 @@ hadoop-daemon.sh start zkfc
 使用简单的hdfs命令
     hdfs dfs -fs hdfs://node1:9000 -ls /
     hdfs dfs -fs hdfs://node1:9000 -mkdir /hbase
+    
+    注意node1要替换为active状态的NameNode，不能用standby状态的
 ```
 
 # Hbase
@@ -455,4 +457,47 @@ start-hbase.sh
 ## 2. 使用
 ```
 详情请参照项目中application.properties、HBaseConfig、HBaseUtil 和 HbaseApplicationTests
+```
+
+# MapReduce 计算平均分例子
+## 1. Windows下使用需要
+```
+ 下载路径 https://github.com/cdarlint/winutils
+ 下载对应版本的 hadoop.all 和 winutils.exe
+ 并将 hadoop.dll 放到 C 盘的Windows/System32目录下
+ 将 winutils.exe 放到 windows 的 %HADOOP_HOME%\bin目录下
+```
+
+## 2. maven依赖
+```
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-mapreduce-client-core</artifactId>
+        <version>3.1.2</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>3.1.2</version>
+    </dependency>
+```
+
+## 3. 使用
+```
+详情请参照 MapReduce 目录下的 Test.class
+```
+
+## 4. 问题
+```
+问题1: 
+    错误 org.apache.hadoop.io.nativeio.NativeIO$Windows.createDirectoryWithMode0(Ljava/lang/String;I)V
+
+原因: 
+    windows 下的 hadoop.dll 和 winutils.exe 与 hadoop 服务器版本不一致
+    
+解决办法: 
+    下载路径 https://github.com/cdarlint/winutils
+    下载对应版本的 hadoop.all 和 winutils.exe
+    并将 hadoop.dll 放到 C 盘的Windows/System32目录下
+    将 winutils.exe 放到 windows 的 %HADOOP_HOME%\bin目录下
 ```
