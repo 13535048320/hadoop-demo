@@ -501,3 +501,84 @@ start-hbase.sh
     并将 hadoop.dll 放到 C 盘的Windows/System32目录下
     将 winutils.exe 放到 windows 的 %HADOOP_HOME%\bin目录下
 ```
+
+# spark
+## 1. 下载
+下载地址: http://spark.apache.org/downloads.html
+
+## 2. 配置
+解压
+```
+tar -xf spark-2.4.3-bin-hadoop2.7.tgz
+cd spark-2.4.3-bin-hadoop2.7/conf
+```
+spark-env.sh
+```
+cp spark-env.sh.template spark-env.sh
+vi spark-env.sh
+添加配置
+    # 配置JAVA_HOME，一般来说，不配置也可以，但是可能会出现问题，还是配上吧
+    export JAVA_HOME=/路径/jdk1.8.0_181
+    
+    # 一般来说，spark任务有很大可能性需要去HDFS上读取文件，所以配置上
+    # 如果说你的spark就读取本地文件，也不需要yarn管理，不用配
+    export HADOOP_CONF_DIR=/路径/hadoop-3.1.2
+    
+    # 设置Master的主机名
+    export SPARK_MASTER_HOST=node1
+    
+    # 提交Application的端口，默认就是这个，万一要改呢，改这里
+    export SPARK_MASTER_PORT=7077
+    
+    # 每一个Worker最多可以使用的cpu core的个数，我虚拟机就一个...
+    # 真实服务器如果有32个，你可以设置为32个
+    export SPARK_WORKER_CORES=1
+    
+    # 每一个Worker最多可以使用的内存，我的虚拟机就2g
+    # 真实服务器如果有128G，你可以设置为100G
+    export SPARK_WORKER_MEMORY=1g
+```
+slaves
+```
+cp slaves.template slaves
+vi slaves
+    添加/修改worker节点
+        node1
+        node2
+```
+其他
+```
+cd spark-2.4.3-bin-hadoop2.7/sbin
+mv start-all.sh start-spark-all.sh
+mv stop-all.sh stop-spark-all.sh
+```
+
+## 3. 环境变量
+```
+# spark
+export SPARK_HOME=/路径/spark-2.4.3-bin-hadoop2.7
+export PATH=$SPARK_HOME/bin:$PATH
+export PATH=$SPARK_HOME/sbin:$PATH
+```
+
+## 4. 启动
+```
+start-spark-all.sh
+```
+
+## 5. 测试
+```
+访问: http://node1:8080
+如果端口已经被使用，修改sbin/start-master.sh
+    if [ "$SPARK_MASTER_WEBUI_PORT" = "" ]; then
+        SPARK_MASTER_WEBUI_PORT=8080
+    fi
+
+执行: spark-shell
+在 spark-shell 中运行 :help
+退出 spark-shell ，执行 :quit
+
+运行 SparkPI 实例程序
+run-example SparkPi
+
+```

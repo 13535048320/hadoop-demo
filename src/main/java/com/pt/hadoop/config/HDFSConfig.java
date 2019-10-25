@@ -5,7 +5,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
- 
+
 /**
  * HDFS相关配置
  *
@@ -15,18 +15,18 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class HDFSConfig {
- 
-    @Value("${HDFS.defaultFS}")
+
+    @Value("${hdfs.defaultFS}")
     private String defaultHDFSUri;
- 
+
     @Bean
     public HDFSUtil getHbaseService(){
- 
+
         org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
- 
+
         conf.set("fs.defaultFS",defaultHDFSUri);
- 
+
         return new HDFSUtil(conf,defaultHDFSUri);
     }
- 
+
 }
