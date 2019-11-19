@@ -376,6 +376,12 @@ hbase-site.xml
         <value>true</value>
     </property>
     
+    <!-- master节点 --> <!-- 个人理解，多master节点时，应该是不需要配置此项亦可，通过zookeeper实现服务发现，但是可能会出现unknown host错误 主机名：Name or service unknown，解决方法尚未找到 -->
+    <property>
+        <name>hbase.master.hostname</name>
+        <value>172.16.234.83</value>
+    </property>
+    
     <!-- 指定zookeeper的地址，多个用“,”分割 -->
     <property>
         <name>hbase.zookeeper.quorum</name>
@@ -413,6 +419,12 @@ hbase-site.xml
     
     <property>
         <name>hbase.unsafe.stream.capability.enforce</name>
+        <value>false</value>
+    </property>
+    
+    <!-- HRegionServer 频繁宕掉时配置 -->
+    <property>
+        <name>hbase.coprocessor.abortonerror</name>
         <value>false</value>
     </property>
 </configuration>
