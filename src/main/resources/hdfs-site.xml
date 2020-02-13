@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+	<!--指定hdfs的nameservice为mycluster，需要和core-site.xml中的fs.defaultFS对应 -->
+        <property>
+                <name>dfs.nameservices</name>
+                <value>mycluster</value>
+        </property>
+
+        <!-- mycluster下面有两个NameNode，分别是namenode1，namenode2, 名字可自定义, 注意与通信地址配置一致即可 -->
+        <property>
+                <name>dfs.ha.namenodes.mycluster</name>
+                <value>namenode1,namenode2</value>
+        </property>
+
+        <!-- namenode1的RPC通信地址, 注意name最后两个名称 -->
+        <property>
+                <name>dfs.namenode.rpc-address.mycluster.namenode1</name>
+                <value>node1:9000</value>
+        </property>
+
+        <!-- namenode1的http通信地址 -->
+        <property>
+                <name>dfs.namenode.http-address.mycluster.namenode1</name>
+                <value>node1:50070</value>
+        </property>
+
+        <!-- namenode2的RPC通信地址 -->
+        <property>
+                <name>dfs.namenode.rpc-address.mycluster.namenode2</name>
+                <value>node2:9000</value>
+        </property>
+        <!-- namenode2的http通信地址 -->
+        <property>
+                <name>dfs.namenode.http-address.mycluster.namenode2</name>
+                <value>node2:50070</value>
+        </property>
+
+        <!-- 设置一组 journalNode 的 URI 地址，active NameNode 将 edit log 写入这些JournalNode -->
+        <!-- 而 standby NameNode 读取这些 edit log，并作用在内存中的目录树中。-->
+        <property>
+                <name>dfs.namenode.shared.edits.dir</name>
+                <value>qjournal://node1:8485;node2:8485;node3:8485/mycluster</value>
+        </property>
+
+        <!-- JournalNode 存储路径 -->
+        <property>
+                <name>dfs.journalnode.edits.dir</name>
+                <value>/data/hadoop/journal/</value>
+        </property>
+
+        <!-- 数据块大小，默认为64M -->
+        <property>
+                <name>dfs.block.size</name>
+                <value>134217728</value>
+        </property>
+
+        <!-- 对于大集群或者有大量客户端的集群来说，通常需要增大参数dfs.namenode.handler.count的默认值10。-->
+        <!-- 设置该值的一般原则是将其设置为集群大小的自然对数乘以20，即20logN，N为集群大小。-->
+        <!-- 疑问: 集群大小是如何定义的?-->
+        <property>
+                <name>dfs.namenode.handler.count</name>
+                <value>10</value>
+        </property>
+
+        <!-- DataNode 存储路径 -->
+        <property>
+                <name>dfs.datanode.data.dir</name>
+                <value>/data/hadoop/data/</value>
+        </property>
+
+        <!-- 块副本数 -->
+        <property>
+                <name>dfs.replication</name>
+                <value>2</value>
+        </property>
+
+        <!-- 关闭权限管理 -->
+        <property>
+                <name>dfs.permissions</name>
+                <value>false</value>
+        </property>
+
+        <!-- NameNode 存储路径 -->
+        <property>
+                <name>dfs.namenode.name.dir</name>
+                <value>/data/hadoop/name/</value>
+        </property>
+
+        <!-- 开启NameNode故障时自动切换 -->
+        <property>
+                <name>dfs.ha.automatic-failover.enabled</name>
+                <value>true</value>
+        </property>
+
+        <!-- 指定mycluster（与最上方dfs.nameservices配置对应）出故障时，哪个实现类负责执行故障切换，注意：mycluster一定要与nameservices配置一致 -->
+        <property>
+                <name>dfs.client.failover.proxy.provider.mycluster</name>
+                <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+        </property>
+        
+        <!-- 发生故障时，避免两个NameNode都为Active状态，使用ssh方式kill掉一个 -->
+        <property>
+                <name>dfs.ha.fencing.methods</name>
+                <value>
+                    sshfence
+                    shell(/bin/true)
+                </value>
+        </property>
+        
+        <!-- 配置sshfence使用的私钥路径 -->
+        <property>
+                <name>dfs.ha.fencing.ssh.private-key-files</name>
+                <value>/home/hadoop/.ssh/id_rsa</value>
+        </property>
+        
+        <!-- 配置sshfence超时时长 -->
+        <property>
+                <name>dfs.ha.fencing.ssh.connect-timeout</name>
+                <value>5000</value>
+        </property>
+
+        <!-- 使用IP配置 -->
+        <property>
+                <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+                <value>false</value>
+        </property>
+
+	
+	
+	<!-- kerberos 认证配置 -->
+        <property>
+		<name>dfs.block.access.token.enable</name>
+		<value>true</value>
+	</property>
+
+	<property>
+		<name>dfs.web.authentication.kerberos.principal</name>
+		<value>HTTP/_HOST@HADOOP.COM</value>
+	</property>
+
+	<property>
+  		<name>dfs.web.authentication.kerberos.keytab</name>
+		<value>/opt/pkg/hadoop/etc/hadoop/HTTP.keytab</value>
+	</property>
+
+	<property>
+                <name>dfs.namenode.keytab.file</name>
+		<value>/opt/pkg/hadoop/etc/hadoop/hadoop.keytab</value>
+	</property>
+
+	<property>
+		<name>dfs.namenode.kerberos.principal</name>
+		<value>hadoop/_HOST@HADOOP.COM</value>
+	</property>
+
+	<property>
+                <name>dfs.datanode.address</name>
+                <value>0.0.0.0:1004</value>
+        </property>
+
+	<property>
+                <name>dfs.datanode.http.address</name>
+                <value>0.0.0.0:1006</value>
+        </property>
+
+	<property>
+		<name>dfs.secondary.namenode.keytab.file</name>
+		<value>/opt/pkg/hadoop/etc/hadoop/hadoop.keytab</value>
+	</property>
+
+        <property>
+		<name>dfs.secondary.namenode.kerberos.principal</name>
+		<value>hadoop/_HOST@HADOOP.COM</value>
+	</property>
+
+	<property>
+		<name>dfs.namenode.secondary.kerberos.internal.spnego.principal</name>
+		<value>HTTP/_HOST@HADOOP.COM</value>
+	</property>
+
+	<property>  
+		<name>dfs.datanode.data.dir.perm</name>  
+		<value>700</value>  
+	</property>
+
+	<property>
+		<name>dfs.datanode.keytab.file</name>
+		<value>/opt/pkg/hadoop/etc/hadoop/hadoop.keytab</value>
+	</property>
+
+	<property>
+		<name>dfs.datanode.kerberos.principal</name>
+		<value>hadoop/_HOST@HADOOP.COM</value>
+	</property>
+
+	<property>
+		<name>dfs.datanode.kerberos.https.principal</name>
+		<value>HTTP/_HOST@HADOOP.COM</value>
+	</property>
+
+	<property>
+                <name>dfs.journalnode.keytab.file</name>
+                <value>/opt/pkg/hadoop/etc/hadoop/hadoop.keytab</value>
+        </property>
+
+	<property>
+                <name>dfs.journalnode.kerberos.principal</name>
+                <value>hadoop/_HOST@HADOOP.COM</value>
+        </property>
+
+        <property>
+                <name>dfs.journalnode.kerberos.internal.spnego.principal</name>
+                <value>HTTP/_HOST@HADOOP.COM</value>
+        </property>
+
+	<property>
+		<name>dfs.data.transfer.protection</name>
+		<value>integrity</value>
+	</property>
+
+	<property> 
+		<name>dfs.encrypt.data.transfer</name> 
+		<value>true</value> 
+	</property>
+
+</configuration>

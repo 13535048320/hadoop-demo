@@ -1,45 +1,28 @@
-package com.pt.hadoop.config;
+package com.pt.hadoop;
 
 import com.pt.hadoop.util.HDFSUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.security.UserGroupInformation;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
-/**
- * HDFS相关配置
- *
- * @author zifangsky
- * @date 2018/7/20
- * @since 1.0.0
- */
-@Configuration
-public class HDFSConfig {
-
-    @Value("${hdfs.defaultFS}")
-    private String defaultHDFSUri;
-
-    @Bean
-    public HDFSUtil getHbaseService() {
-
+public class HDFSTest {
+    public static void main(String[] args) {
         org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
 
-
+        String defaultHDFSUri = "hdfs://node1:9000";
         String krb5File = "src/main/resources/krb5.conf";
         String user = "hadoop/node1@HADOOP.COM";
         String keyPath = "src/main/resources/hadoop.keytab";
 
-        System.setProperty("java.security.krb5.conf", krb5File);
-
-        conf.set("fs.defaultFS", defaultHDFSUri);
+        conf.set("fs.defaultFS",defaultHDFSUri);
         conf.set("hadoop.security.authentication", "kerberos");
         conf.set("hadoop.security.authorization", "true");
         conf.addResource("src/main/resources/hdfs-site.xml");
         conf.addResource("src/main/resources/core-site.xml");
         conf.addResource("src/main/resources/yarn-site.xml");
+
+        System.setProperty("java.security.krb5.conf", krb5File);
         UserGroupInformation.setConfiguration(conf);
         try {
             UserGroupInformation.loginUserFromKeytab(user, keyPath);
@@ -47,7 +30,7 @@ public class HDFSConfig {
             e.printStackTrace();
         }
 
-        return new HDFSUtil(conf, defaultHDFSUri);
+        HDFSUtil util = new HDFSUtil(conf,defaultHDFSUri);
+        System.out.println(util.checkExists("/test.txt"));
     }
-
 }

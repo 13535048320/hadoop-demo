@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+	<!-- 指定hdfs的nameservice为node，需要和hdfs-site.xml中的dfs.nameservices一致 -->
+	<property>
+		<name>fs.defaultFS</name>
+		<value>hdfs://mycluster</value>
+	</property>
+
+	<!--指定hadoop数据临时存放目录-->
+	<property>
+		<name>hadoop.tmp.dir</name>
+		<value>/data/hadoop/tmp</value>
+	</property>
+
+	<!--指定hdfs操作数据的缓冲区大小 可以不配-->
+	<property>
+		<name>io.file.buffer.size</name>
+		<value>131072</value>
+	</property>
+
+	<!--指定zookeeper地址-->
+	<property>
+		<name>ha.zookeeper.quorum</name>
+		<value>node1:2181,node2:2181,node3:2181</value>
+	</property>
+
+	<!-- kerberos 认证配置 -->
+	<property>
+		<name>hadoop.security.authentication</name>
+		<value>kerberos</value>
+	</property>
+
+	<property>
+		<name>hadoop.security.authorization</name>
+		<value>true</value>
+	</property>
+
+	<property> 
+		<name>hadoop.rpc.protection</name> 
+		<value>authentication</value> 
+	</property>
+
+	<property> 
+		<name>hadoop.security.auth_to_local</name> 
+		<value>DEFAULT</value> 
+	</property>
+
+	<property>
+		<name>hadoop.proxyuser.hive.hosts</name>
+		<value>*</value>
+	</property>
+
+	<property>
+		<name>hadoop.proxyuser.hive.groups</name>
+		<value>*</value>
+	</property>
+
+	<property>
+		<name>hadoop.proxyuser.hdfs.hosts</name>
+		<value>*</value>
+	</property>
+
+	<property>
+      		<name>hadoop.proxyuser.hdfs.groups</name>
+      		<value>*</value>
+	</property>
+
+	<property>
+      		<name>hadoop.proxyuser.HTTP.hosts</name>
+      		<value>*</value>
+	</property>
+
+	<property>
+      		<name>hadoop.proxyuser.HTTP.groups</name>
+      		<value>*</value>
+	</property>
+
+	<property>
+      		<name>hadoop.proxyuser.hadoop.hosts</name>
+      		<value>*</value>
+	</property>
+
+	<property>
+      		<name>hadoop.proxyuser.hadoop.groups</name>
+      		<value>*</value>
+	</property>
+</configuration>

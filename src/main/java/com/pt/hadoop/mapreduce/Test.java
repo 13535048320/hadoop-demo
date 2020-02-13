@@ -9,11 +9,32 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.security.UserGroupInformation;
+
+import java.io.IOException;
 
 public class Test {
     public static void main(String[] args) throws Exception {
+        String krb5File = "src/main/resources/krb5.conf";
+        System.setProperty("java.security.krb5.conf", krb5File);
+
+        String user = "hadoop/node1@HADOOP.COM";
+        String keyPath = "src/main/resources/hadoop.keytab";
 
         JobConf conf = new JobConf();
+        conf.set("fs.defaultFS", "hdfs://node1:9000");
+        conf.set("hadoop.security.authentication", "kerberos");
+        conf.set("hadoop.security.authorization", "true");
+        conf.addResource("src/main/resources/hdfs-site.xml");
+        conf.addResource("src/main/resources/core-site.xml");
+        conf.addResource("src/main/resources/yarn-site.xml");
+        UserGroupInformation.setConfiguration(conf);
+        try {
+            UserGroupInformation.loginUserFromKeytab(user, keyPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         System.setProperty("hadoop.home.dir", "D:\\tools\\hadoop-3.1.2");
         System.load("D:\\tools\\hadoop.dll");
         Job job = new Job(conf, "Score Average");
