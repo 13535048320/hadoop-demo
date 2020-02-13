@@ -24,7 +24,6 @@ public class Test {
         JobConf conf = new JobConf();
         conf.set("fs.defaultFS", "hdfs://node1:9000");
         conf.set("hadoop.security.authentication", "kerberos");
-        conf.set("hadoop.security.authorization", "true");
         conf.addResource("src/main/resources/hdfs-site.xml");
         conf.addResource("src/main/resources/core-site.xml");
         conf.addResource("src/main/resources/yarn-site.xml");

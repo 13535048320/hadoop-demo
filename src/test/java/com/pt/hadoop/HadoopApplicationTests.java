@@ -30,6 +30,7 @@ public class HadoopApplicationTests {
 
     @Test
     public void createTable() {
+
         //创建命名空间
         hbaseUtil.createNamespace(namespace);
 

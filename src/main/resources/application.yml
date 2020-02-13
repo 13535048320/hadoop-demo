@@ -1,0 +1,26 @@
+server:
+  port: 8889
+
+hdfs:
+  defaultFS: hdfs://node1:9000
+
+hadoop:
+  security:
+    authentication: kerberos
+  localDir: D:\tools\hadoop-3.1.2
+
+hbase:
+  zookeeper:
+    quorum: node1,node2,node3
+    property:
+      clientPort: 2181
+  security:
+    authentication: kerberos
+    principal: hadoop/node1@HADOOP.COM
+    keytab:
+      file: src/main/resources/hadoop.keytab
+    krb5:
+      conf: src/main/resources/krb5.conf
+
+
+

@@ -24,9 +24,7 @@ public class HDFSConfig {
 
     @Bean
     public HDFSUtil getHbaseService() {
-
         org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
-
 
         String krb5File = "src/main/resources/krb5.conf";
         String user = "hadoop/node1@HADOOP.COM";
@@ -36,7 +34,6 @@ public class HDFSConfig {
 
         conf.set("fs.defaultFS", defaultHDFSUri);
         conf.set("hadoop.security.authentication", "kerberos");
-        conf.set("hadoop.security.authorization", "true");
         conf.addResource("src/main/resources/hdfs-site.xml");
         conf.addResource("src/main/resources/core-site.xml");
         conf.addResource("src/main/resources/yarn-site.xml");
